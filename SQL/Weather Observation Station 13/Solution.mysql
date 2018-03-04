@@ -1,0 +1,12 @@
+/*
+Enter your query here.
+*/
+ 
+SELECT CAST(SUM(LAT_N) as DECIMAL(10,4))
+FROM (
+    SELECT *
+    FROM STATION
+    WHERE 38.7880 < LAT_N AND LAT_N < 137.2345
+    ORDER BY LAT_N
+)TEMP
+;
