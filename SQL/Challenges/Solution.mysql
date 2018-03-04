@@ -1,0 +1,23 @@
+SELECT ha.hacker_id as ha_id, ha.name as ha_am, count(cha.challenge_id) as cou
+FROM hackers as ha
+INNER JOIN challenges as cha ON cha.hacker_id = ha.hacker_id
+GROUP BY ha_id, ha_am
+HAVING 
+    cou = (SELECT max(cnt1)
+          FROM( SELECT count(hacker_id)as cnt1
+                FROM challenges as cha1
+                GROUP BY hacker_id
+                ORDER BY hacker_id
+               )temp)
+    
+    or cou in (SELECT temp2.cnt2
+              FROM(
+                   SELECT COUNT(cha2.challenge_id) as cnt2, hacker_id as h_id
+                   FROM challenges as cha2
+                   GROUP BY hacker_id
+                   ORDER BY COUNT(cha2.challenge_id) desc
+                  )temp2           
+              GROUP BY temp2.cnt2
+              HAVING COUNT(temp2.cnt2) = 1)
+    
+ORDER BY cou desc, ha_id 
