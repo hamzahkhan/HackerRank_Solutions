@@ -1,0 +1,12 @@
+SELECT id, name
+FROM(
+    SELECT count(ha.name) as cou,ha.hacker_id as id, ha.name as name
+    FROM submissions sub6 
+    INNER JOIN challenges cha6 ON sub6.challenge_id = cha6.challenge_id
+    INNER JOIN difficulty diff ON cha6.difficulty_level = diff.difficulty_level
+    INNER JOIN hackers ha ON ha.hacker_id = sub6.hacker_id
+    WHERE sub6.score = diff.score 
+    GROUP BY ha.hacker_id,ha.name
+    ORDER BY count(ha.name) DESC, ha.hacker_id
+)temp
+WHERE cou > 1
