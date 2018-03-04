@@ -1,0 +1,8 @@
+SELECT wa.id , wp.age , wa.coins_needed , wa.power 
+FROM wands as wa
+INNER JOIN Wands_Property wp ON (wa.code = wp.code)
+WHERE wp.is_evil = 0 and wa.coins_needed = (SELECT min(coins_needed) 
+                                            FROM wands as wa1
+                                            INNER JOIN Wands_Property as wp1 ON wa1.code = wp1.code
+                                            WHERE wp.age = wp1.age and wa.power = wa1.power)
+ORDER BY wa.power desc, wp.age desc
