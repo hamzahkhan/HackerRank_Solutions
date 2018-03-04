@@ -1,0 +1,11 @@
+/*MAX(months*salary),
+Enter your query here.
+*/
+SELECT *
+FROM (
+    SELECT months*salary AS earnings, count(months*salary) AS earnings_count 
+    FROM employee
+    GROUP BY months*salary
+    ORDER BY earnings DESC
+)Temp
+LIMIT 1;
